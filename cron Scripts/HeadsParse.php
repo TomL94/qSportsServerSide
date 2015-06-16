@@ -70,7 +70,8 @@ else
                            " VALUES (" . $item->guid . ",'" . $conn->real_escape_string($item->title) . 
                                  "','" . $conn->real_escape_string($itemDesc) . "','" . $imgLink . 
                                  "','" . $conn->real_escape_string($imgDesc) . "','" . $item->link . 
-                                 "','" . date('Y-m-d H:i:s', strtotime($item->pubDate)) . "')";
+                                 "','" . date('Y-m-d H:i:s', strtotime($item->pubDate)) . "','" .
+                                 "SELECT NOW()" . "')";
 
             // Checks the result of the query and prints the result
             if ($conn->query($addItemQuery) === TRUE)
