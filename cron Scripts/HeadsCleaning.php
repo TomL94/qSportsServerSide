@@ -1,4 +1,5 @@
 <?php
+// Including global vars
 include_once('vars.php');
 
 // Connecting to the mysql server
