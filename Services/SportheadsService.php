@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $serv = isset($_POST['serv']) ? $_POST['serv'] : "";
     
     if ($serv == "get_heads" && isset($_POST['nor'])) {
-	    $numOfRequests = $_POST['nor'] * 10;
+        $numOfRequests = $_POST['nor'] * 10;
 
         // Connecting to the DB
         $conn = new mysqli($servername, $username, $password);
@@ -36,9 +36,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             // Sending results as JSON
             echo json_encode($headsArray);
         }
+
+        // Closing the DB connection
+        $conn->close();
     }
     else if ($serv == "get_new_items" && isset($_POST['most_recent'])) {
-        $mostRecent = $_POST['most_recent']);
+        $mostRecent = $_POST['most_recent'];
 
         // Connecting to the DB
         $conn = new mysqli($servername, $username, $password);
@@ -51,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $conn->query("use SportHeads");
 
             // Getting all the new items
-            $headsQuery = $conn->query("SELECT * FROM heads ORDER BY item_date DESC WHERE date_entered > " . $mostRecent);
+            $headsQuery = $conn->query("SELECT * FROM heads WHERE date_entered > " . $mostRecent . " ORDER BY item_date DESC");
 
             // Turning query results into array
             $headsArray = array();
@@ -64,6 +67,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             // Sending results as JSON
             echo json_encode($headsArray);
         }
+
+        //echo json_encode("{a:a}");
+
+        // Closing the DB connection
+        $conn->close();
     }
 }
 ?>

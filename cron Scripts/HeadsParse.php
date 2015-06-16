@@ -3,7 +3,7 @@ include_once('vars.php');
 
 // Downloading XML
 $oneRssFeed = simplexml_load_file("http://www.one.co.il/cat/coop/xml/rss/newsfeed.aspx") or 
-			  die("Error: Cannot download XML");
+              die("Error: Cannot download XML");
 echo "Downloaded XML!\n";
 
 // Connecting to the DB
@@ -16,14 +16,14 @@ if ($conn->connect_error)
 }
 else
 {
-	echo "Connected to DB!\n";
-	
-	// Using the wanted DB
-	$conn->query("use SportHeads");
-	
-	// Going through each item
-	foreach ($oneRssFeed->xpath("//item") as $item)
-	{	
+    echo "Connected to DB!\n";
+    
+    // Using the wanted DB
+    $conn->query("use SportHeads");
+    
+    // Going through each item
+    foreach ($oneRssFeed->xpath("//item") as $item)
+    {   
         // Parsing the CDATA
         $imgLink = explode("\"", explode("src=\"", $item->description)[1])[0];
         $imgDesc = explode("\"", explode("alt=\"", $item->description)[1])[0];
@@ -70,8 +70,8 @@ else
                            " VALUES (" . $item->guid . ",'" . $conn->real_escape_string($item->title) . 
                                  "','" . $conn->real_escape_string($itemDesc) . "','" . $imgLink . 
                                  "','" . $conn->real_escape_string($imgDesc) . "','" . $item->link . 
-                                 "','" . date('Y-m-d H:i:s', strtotime($item->pubDate)) . "','" .
-                                 "SELECT NOW()" . "')";
+                                 "','" . date('Y-m-d H:i:s', strtotime($item->pubDate)) . "'," .
+                                 "(SELECT NOW())" . ")";
 
             // Checks the result of the query and prints the result
             if ($conn->query($addItemQuery) === TRUE)
@@ -86,10 +86,10 @@ else
 
         // Closing the last result set
         $existingItem->close();
-	}
-	
-	// Closes the connection
-	$conn->close();
-	echo "End of job!\n";
+    }
+    
+    // Closes the connection
+    $conn->close();
+    echo "End of job!\n";
 }
 ?>
