@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $conn->query("use SportHeads");
             
             // Getting the first 10 heads
-            $headsQuery = $conn->query("SELECT * FROM heads ORDER BY item_date DESC LIMIT 10 OFFSET " . $numOfRequests);
+            $headsQuery = $conn->query("SELECT *, DATE_FORMAT(item_date, '%m/%d/%Y %T') format_item_date FROM heads ORDER BY item_date DESC LIMIT 10 OFFSET " . $numOfRequests);
             
             // Turning query results into array
             $headsArray = array();
