@@ -13,5 +13,16 @@ else {
 	
 	// Using the wanted DB
 	$conn->query("use SportHeads");
+
+	// Checking if the query was successful
+	if ($conn->query("DELETE FROM heads WHERE item_date < ADDDATE(NOW(), -30)") === TRUE) {
+		echo "All items older than 30 days successfully removed!"
+	} else {
+		echo "Error in cleaning items older than 30 days.\n" . $conn->error . "\n";
+	}
+
+	// Closing the connection
+	$conn->close();
+	echo "End of job!\n";
 }
 ?>
